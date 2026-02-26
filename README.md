@@ -1,16 +1,30 @@
-# React + Vite
+# FlowBuild
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A highly unique Chatbot Flow Builder developed with React and `@xyflow/react` (React Flow). This application allows users to build dynamic messaging flows with a customized UI.
 
-Currently, two official plugins are available:
+## Features
+- **Modern Unique UI**: Utilizes an aesthetic 'Lime and Yellow' dark/light palette instead of typical boilerplate UI blocks.
+- **Drag & Drop Logic**: Seamlessly pull new `Message` nodes directly from the node panel.
+- **Node Configuration**: Select any node to update its message contents on the fly.
+- **Edge Control**: Custom logic ensures only one outgoing message per node. Select any edge and delete it easily via an inline button.
+- **Validation Mechanics**: Instantly validates logic on "Save", reporting back using stylish Toasts if multiple nodes exist with blank targets.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Running Locally
 
-## React Compiler
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the development server:
+   ```bash
+   npm run dev
+   ```
+   
+Open your localhost url in your browser.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Built With
+- React (via Vite)
+- JavaScript
+- `@xyflow/react`
+- Vanilla CSS Variables
+- react-icons
