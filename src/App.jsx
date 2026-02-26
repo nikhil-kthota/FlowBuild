@@ -13,7 +13,8 @@ import '@xyflow/react/dist/style.css';
 import { v4 as uuidv4 } from 'uuid';
 
 import MessageNode from './components/MessageNode';
-import FloatingUI from './components/FloatingUI';
+import NodePanel from './components/NodePanel';
+import SettingsPanel from './components/SettingsPanel';
 import CustomEdge from './components/CustomEdge';
 
 const nodeTypes = {
@@ -68,6 +69,7 @@ function FlowBuilder() {
 
   const selectedNode = nodes.find(n => n.id === selectedNodeId);
 
+  // let users double click nodes to get rid of them quickly instead of just selecting
   const onNodeDoubleClick = useCallback(
     (event, node) => {
       setNodes((nds) => nds.filter((n) => n.id !== node.id));
@@ -77,6 +79,8 @@ function FlowBuilder() {
     [setNodes, setEdges, selectedNodeId]
   );
 
+  // hook that runs whenever a new wire connection is made between nodes.
+  // checking if the source handle already has an edge - if it does, block the connection
   const onConnect = useCallback(
     (params) => {
       const sourceEdges = edges.filter(e => e.source === params.source);
@@ -94,6 +98,7 @@ function FlowBuilder() {
     event.dataTransfer.dropEffect = 'move';
   }, []);
 
+  // handles what happens when a dragged block gets dropped onto the actual canvas area
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
@@ -132,6 +137,8 @@ function FlowBuilder() {
     setSelectedNodeId(null);
   };
 
+  // this is the main check triggered when the save button gets clicked.
+  // loops thru all nodes to see how many of them don't have an incoming connection target.
   const validateFlow = () => {
     if (nodes.length <= 1) {
       showToast('Saved Successfully', 'success');
@@ -141,6 +148,7 @@ function FlowBuilder() {
     let emptyTargetHandleCount = 0;
 
     nodes.forEach(node => {
+      // checking the edges array to see if any edge targets this specific node's ID
       const isTarget = edges.some(edge => edge.target === node.id);
       if (!isTarget) {
         emptyTargetHandleCount++;
@@ -180,24 +188,17 @@ function FlowBuilder() {
 
         <div className="builder-layout">
           <div className="panel-area">
-            {selectedNode ? (
-              <FloatingUI
-                theme={theme}
-                toggleTheme={toggleTheme}
-                onSave={validateFlow}
-                selectedNode={selectedNode}
-                setNodes={setNodes}
-                setSelectedNodeId={setSelectedNodeId}
-                isSettings={true}
-              />
-            ) : (
-              <FloatingUI
-                theme={theme}
-                toggleTheme={toggleTheme}
-                onSave={validateFlow}
-                isNodePanel={true}
-              />
-            )}
+            <div className="panel-card">
+              {selectedNode ? (
+                <SettingsPanel
+                  selectedNode={selectedNode}
+                  setNodes={setNodes}
+                  onBack={() => setSelectedNodeId(null)}
+                />
+              ) : (
+                <NodePanel />
+              )}
+            </div>
 
             <button className="save-btn" onClick={validateFlow}>
               <span>SAVE</span>
