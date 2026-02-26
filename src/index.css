@@ -1,0 +1,376 @@
+:root {
+  --bg-color: #f0f0f0;
+  --text-color: #1a1a1a;
+  --panel-bg: rgba(255, 255, 255, 0.85);
+  --panel-border: rgba(0, 0, 0, 0.1);
+  --primary-color: #000000;
+  --lime: #E5F2C9;
+  --yellow: #f8db00;
+  --node-bg: #ffffff;
+  --node-header-bg: var(--lime);
+  --node-border: var(--primary-color);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  --bg-color: #121212;
+  --text-color: #f0f0f0;
+  --panel-bg: rgba(30, 30, 30, 0.85);
+  --panel-border: rgba(255, 255, 255, 0.1);
+  --primary-color: #ffffff;
+  --lime: #e5f2c9;
+  --yellow: #ffee00;
+  --node-bg: #1e1e1e;
+  --node-header-bg: var(--lime);
+  --node-border: #333333;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+  overflow: hidden;
+}
+
+.app-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.theme-toggle-btn-top {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  color: var(--text-color);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: var(--shadow);
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  /* changed from hidden so it scrolls out if small */
+  padding-bottom: 2rem;
+}
+
+.hero-section {
+  padding: 3rem 1rem 1rem 1rem;
+  text-align: center;
+  background-color: var(--bg-color);
+}
+
+.hero-section h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.hero-section p {
+  color: #666;
+  font-size: 0.9rem;
+  text-transform: none;
+}
+
+.builder-layout {
+  display: flex;
+  flex: 1;
+  max-width: 95%;
+  /* Increased from 1400px to allow more width */
+  min-height: 75vh;
+  width: 100%;
+  margin: 0 auto;
+  gap: 20px;
+  padding: 0 2rem;
+  flex-direction: row;
+}
+
+@media (max-width: 900px) {
+  .builder-layout {
+    flex-direction: column;
+  }
+}
+
+.panel-area {
+  flex: 0 0 380px;
+  /* Fixed width for the panel instead of flex ratio */
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  border-radius: 12px;
+}
+
+.reactflow-wrapper {
+  flex: 1;
+  /* Takes all remaining width, making it much bigger */
+  border-radius: 12px;
+  border: 1px solid var(--panel-border);
+  background: var(--node-bg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  height: 600px;
+  /* give it a static min/max height so it's a contained block */
+}
+
+@media (min-width: 901px) {
+  .reactflow-wrapper {
+    height: auto;
+    /* fill parent */
+  }
+}
+
+.edge-delete-btn {
+  background: var(--primary-color);
+  color: var(--bg-color);
+  border: 2px solid var(--lime);
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 10px;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.edge-delete-btn:hover {
+  transform: scale(1.1);
+  background: var(--lime);
+  color: #000;
+}
+
+.react-flow__node {
+  font-family: inherit;
+}
+
+.react-flow__handle {
+  width: 10px;
+  height: 10px;
+  background-color: var(--primary-color);
+  border: 2px solid var(--bg-color);
+}
+
+.panel-card {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  flex: 1;
+}
+
+.save-btn {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--lime);
+  border: 1px solid var(--primary-color);
+  color: #000;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.custom-node {
+  background: var(--node-bg);
+  border: 2px solid var(--node-border);
+  border-radius: 12px;
+  min-width: 250px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.custom-node-selected {
+  border-color: var(--lime);
+  box-shadow: 0 0 20px rgba(204, 255, 0, 0.5);
+}
+
+.node-header {
+  background: var(--node-header-bg);
+  color: #000;
+  padding: 10px 15px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.node-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.node-icon {
+  font-size: 1.2rem;
+}
+
+.whatsapp-icon {
+  width: 16px;
+  height: 16px;
+  background-color: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 10px;
+}
+
+.node-content {
+  padding: 20px;
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.nodes-panel-item {
+  border: 2px dashed var(--primary-color);
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  cursor: grab;
+  transition: background 0.2s, border-color 0.2s;
+  background: transparent;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.nodes-panel-item:hover {
+  background: rgba(204, 255, 0, 0.1);
+  border-color: var(--lime);
+}
+
+.nodes-panel-icon {
+  font-size: 2rem;
+  color: var(--lime);
+}
+
+.settings-panel header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  border-bottom: 1px solid var(--panel-border);
+  padding-bottom: 10px;
+}
+
+.settings-panel .back-btn {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+}
+
+.settings-panel textarea {
+  width: 100%;
+  min-height: 100px;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 10px;
+  color: var(--text-color);
+  font-family: inherit;
+  resize: vertical;
+}
+
+.settings-panel .field-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #888;
+}
+
+[data-theme='dark'] .settings-panel textarea {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.theme-toggle-btn {
+  background: var(--panel-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--panel-border);
+  color: var(--text-color);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s;
+  pointer-events: auto;
+  box-shadow: var(--shadow);
+}
+
+.toast {
+  position: absolute;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--panel-bg);
+  color: var(--text-color);
+  padding: 15px 30px;
+  border-radius: 30px;
+  font-weight: bold;
+  box-shadow: var(--shadow);
+  z-index: 100;
+  pointer-events: auto;
+  border: 2px solid;
+  backdrop-filter: blur(12px);
+}
+
+.toast.error {
+  border-color: #ff4444;
+}
+
+.toast.success {
+  border-color: var(--lime);
+}
+
+.react-flow__controls button {
+  background: var(--panel-bg) !important;
+  border-color: var(--panel-border) !important;
+  color: var(--text-color) !important;
+}
+
+.react-flow__controls button svg {
+  fill: var(--text-color) !important;
+}
